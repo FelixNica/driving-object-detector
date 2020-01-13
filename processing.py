@@ -4,11 +4,10 @@ import numpy as np
 def process_training_predictions(predictions, anchors, network_output_shape):
     """
     Converts predictions list to predictions vector compatible with the loss function.
-    Predictions vector cells are populated with respect to bounding box location (cell indices)
-    and shape (anchor indices)
-    :param predictions: predictions list for image, corresponds to one item in batch (from batcher)
+    Predictions vector cells are populated with respect to bounding box location (cell indices) and shape (anchor indices)
+    :param predictions: predictions list, corresponds to one item in batch (from batcher)
     :param anchors: anchor values from detector
-    :param network_output_shape: shape of final layer in detector network
+    :param network_output_shape: shape of final layer in detector model
     :return: y_true vector to be used in training
     """
 
@@ -61,10 +60,10 @@ def process_training_batch(batch, anchors, network_output_shape):
     """
     Applies process_training_predictions on all items in batch.
     Converts all images in batch from int to 0-1 float values.
-    :param batch: Batch to be processed, from batcher
+    :param batch: batch to be processed (from batcher)
     :param anchors: anchor values from detector
-    :param network_output_shape: shape of final layer in detector network
-    :return: Batch of image, predictions pairs as array for training
+    :param network_output_shape: shape of final layer in detector model
+    :return: batch of (image, predictions) as array for training
     """
 
     images, predictions = batch
@@ -75,16 +74,11 @@ def process_training_batch(batch, anchors, network_output_shape):
     return images, np.asarray(predictions_batch)
 
 
-def process_output(output,
-                   anchors,
-                   confidence_threshold=0.5,
-                   max_suppression_thresh=0.5,
-                   max_suppression=True,
-                   cell_size=32):
+def process_output(output, anchors, confidence_threshold=0.5, max_suppression_thresh=0.5, max_suppression=True, cell_size=32):
 
     """
-    Converts detector network raw output to a list of predictions.
-    :param output: detector network output for one item in batch
+    Converts detector model output to a list of predictions.
+    :param output: detector moedel output for one item in batch
     :param anchors: anchor values from detector
     :param confidence_threshold: minimum confidence value for detection
     :param max_suppression_thresh: non max suppression threshold
@@ -141,16 +135,10 @@ def process_output(output,
     return np.concatenate((boxes, labels), axis=-1)
 
 
-def process_output_batch(output_batch,
-                         anchors,
-                         confidence_threshold=0.5,
-                         max_suppression_thresh=0.5,
-                         max_suppression=True,
-                         cell_size=32):
+def process_output_batch(output_batch, anchors, confidence_threshold=0.5, max_suppression_thresh=0.5, max_suppression=True, cell_size=32):
 
     """
     Applies process_output on all items in batch.
-
     :param output_batch: detector network output
     :param anchors: anchor values from detector
     :param confidence_threshold: minimum confidence value for detection
@@ -162,12 +150,7 @@ def process_output_batch(output_batch,
 
     predictions_batch = []
     for output in output_batch:
-        predictions = process_output(output,
-                                     anchors,
-                                     confidence_threshold,
-                                     max_suppression_thresh,
-                                     max_suppression,
-                                     cell_size)
+        predictions = process_output(output, anchors, confidence_threshold, max_suppression_thresh, max_suppression, cell_size)
         predictions_batch.append(predictions)
 
     return predictions_batch
@@ -226,9 +209,9 @@ def non_max_suppression(boxes, labels, overlap_threshold):
 
 
 """
-Logistic and Softmax activations for processing the model output (final stages) at CPU level
-There are parallel versions of these running in the loss function. This necessary in order to 
-maintain Keras compatibility (no custom Keras layers required, minimal use of tensorflow backend)
+Logistic and Softmax activations for processing the output (final stages) at CPU level
+There are parallel versions of these running in the loss function. This is necessary in order to 
+maintain Keras compatibility (no custom Keras layers required, minimal use of Tensorflow backend)
 This also makes porting to Tensorflow 2.0 more streamlined
 """
 
