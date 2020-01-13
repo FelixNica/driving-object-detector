@@ -1,5 +1,4 @@
-from keras.layers import Conv2D, MaxPooling2D, Input, Reshape, \
-    BatchNormalization, LeakyReLU, Concatenate, Permute
+from keras.layers import Conv2D, MaxPooling2D, Input, Reshape, BatchNormalization, LeakyReLU, Concatenate, Permute
 from keras import Model
 from keras.models import load_model
 import numpy as np
@@ -24,23 +23,23 @@ class DrivingObjectDetector:
         self.retrain_from = 77
         self.output_shape = (self.cell_number, self.cell_number, len(self.anchors), 4 + 1 + len(self.classes))
 
-        self.net = self.build_model()
-        print(self.net.summary())
+        self.model = self.build_model()
+        print(self.model.summary())
 
     def import_weights(self, read_model_path, first=0, last=None):
         read_model = load_model(read_model_path)
 
         if last is None:
-            last = len(self.net.layers)
+            last = len(self.model.layers)
 
         for i in range(first, last):
 
-            self.net.layers[i].set_weights(read_model.layers[i].get_weights())
+            self.model.layers[i].set_weights(read_model.layers[i].get_weights())
 
-            w = np.array(self.net.layers[i].get_weights())
+            w = np.array(self.model.layers[i].get_weights())
             if np.array_equal(np.array(read_model.layers[i].get_weights()), w):
-                print('imported weights of shape {} for layer index {}'.format(w.shape, i))
-        read_model = None
+                print('Imported weights of shape {} for layer index {}'.format(w.shape, i))
+        read_model = None  # unload read model form GPU memory
 
     def build_model(self):
         model_in = Input((self.image_size, self.image_size, 3))
@@ -92,6 +91,7 @@ def network_block(tensor, dims, train=True):
     return tensor
 
 
+# TODO: Retrain a large section of the model to support residual layer connectivity and remove reorganise composite
 def reorganize(input_tensor, stride):
     _, h, w, c = input_tensor.get_shape().as_list()
 
@@ -103,4 +103,5 @@ def reorganize(input_tensor, stride):
 
     channel_last = Permute((2, 3, 1))(target_tensor)
     return Reshape((h // stride, w // stride, -1))(channel_last)
+
 
