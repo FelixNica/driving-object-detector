@@ -17,7 +17,7 @@ def init_experiment(path):
 
     if os.path.exists(path) is False:
         os.mkdir(path)
-        print('Sessions: Experiment directory "{}" created'.format(path))
+        print('Experiment directory "{}" created'.format(path))
 
     if os.path.exists(path + '/training_samples') is False:
         os.mkdir(path + '/training_samples')
@@ -39,13 +39,13 @@ def init_experiment(path):
 
         with open(path + '/experiment_configuration.json', 'w') as cfg:
             json.dump(config_dict, cfg)
-        print('Sessions: Experiment configuration initialised form default')
+        print('Experiment configuration initialised form default')
         return config_dict
 
     else:
         with open(path + '/experiment_configuration.json') as cfg:
             config_dict = json.load(cfg)
-        print('Sessions: Experiment configuration loaded from file')
+        print('Experiment configuration loaded from file')
         return config_dict
 
 
@@ -95,29 +95,29 @@ def start_session(experiment_path,
 
             if lr_scheduler is not None:
                 lr = lr_scheduler(epoch)
-                K.set_value(detector.net.optimizer.lr, lr)
+                K.set_value(detector.model.optimizer.lr, lr)
 
-            train_loss = detector.net.train_on_batch(x_train, y_train)
+            train_loss = detector.model.train_on_batch(x_train, y_train)
 
             if epoch % config['save_sample_every'] is 0:
-                z_train = detector.net.predict(x_train, batch_size=x_train.shape[0])
+                z_train = detector.model.predict(x_train, batch_size=x_train.shape[0])
                 z_train = processing.process_output_batch(z_train, detector.anchors,
                                                           confidence_threshold=0.05, max_suppression=False)
                 spl_name = experiment_path+'/training_samples/train_e-'+str(epoch)
                 utils.sample_batch(imgs, z_train, detector.classes, spl_name)
 
             if epoch % config['save_state_every'] is 0 and epoch is not 0:
-                detector.net.save(experiment_path + '/model_states/state_e-'+str(epoch))
+                detector.model.save(experiment_path + '/model_states/state_e-'+str(epoch))
 
         if test_only is True or epoch % config['validate_every'] is 0:
             imgs, preds = data_flow_test.get_batch()
             x_test, y_test = processing.process_training_batch((imgs, preds),
                                                                detector.anchors,
                                                                detector.output_shape)
-            val_loss = detector.net.evaluate(x_test, y_test, y_test.shape[0], verbose=0)
+            val_loss = detector.model.evaluate(x_test, y_test, y_test.shape[0], verbose=0)
 
             if epoch % config['save_sample_every'] is 0:
-                z_test = detector.net.predict(x_test, batch_size=x_test.shape[0])
+                z_test = detector.model.predict(x_test, batch_size=x_test.shape[0])
                 z_test = processing.process_output_batch(z_test, detector.anchors)
                 spl_name = experiment_path + '/test_samples/test_e-' + str(epoch)
                 utils.sample_batch(imgs, z_test, detector.classes, spl_name)
@@ -148,7 +148,7 @@ def start_session(experiment_path,
             utils.plot(experiment_path + '/metrics_avg.csv', experiment_path + '/plot')
 
     if test_only is False:
-        detector.net.save(experiment_path + '/model_states/state_final')
+        detector.model.save(experiment_path + '/model_states/state_final')
 
     config['total_epochs'] = config['total_epochs']+epochs
     session_time = time.time() - session_start_time
