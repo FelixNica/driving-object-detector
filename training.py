@@ -165,4 +165,3 @@ def start_session(experiment_path,
     print(' minutes:             ' + str(config['total_time'] / 60))
     print(80*'=')
 
-
