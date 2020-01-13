@@ -6,10 +6,8 @@ import threading
 import numpy as np
 
 """
-Generate batches of images with their corresponding predictions in list format from
-pre-processed data.
-Handles fetch-from-storage using treading during GPU compute time to cut down on
-total training time.
+Generate batches of images with their corresponding predictions in list format from pre-processed data.
+Handles fetch-from-storage using treading during GPU compute time to cut down on total training time.
 """
 # TODO: add NetworkBatcher for fetching data from network location (Performance strategy should apply)
 
@@ -18,8 +16,7 @@ class LocalBatcher:
 
     """
     Generates batches form locally stored data.
-    Threading gives maximum performance gain when the data is very big in size and
-    stored on disk drives.
+    Threading gives maximum performance gain when the data is very big in size and stored on disk drives.
     Minimum performance gain using SSD but limited by storage capacity.
 
     Restarts bach generation at end of data.
@@ -98,9 +95,8 @@ class LocalBatcher:
 
     def get_batch(self):
         """
-        Launches a parallel bach compute thread to load new data after the current buffer is
-        handed to the GPU
-        :return: current batch_buffer to be handed to GPU
+        Launches a parallel bach compute thread to load new data after the current buffer is handed to the GPU
+        :return: current batch to be handed to GPU
         """
         wait_start = time.time()
         while self.safe_flag is False:
@@ -115,3 +111,5 @@ class LocalBatcher:
         self.safe_flag = False
         self.batch_buffer = next(self.batch_flow)
         self.safe_flag = True
+
+
