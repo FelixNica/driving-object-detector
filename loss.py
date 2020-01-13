@@ -63,7 +63,7 @@ def get_function(anchors):
         predicted_objectedness = tf.nn.sigmoid(y_pred[..., 4])
         predicted_logits = tf.nn.softmax(y_pred[..., 5:])
 
-        # PROCESS GROUND TRUTH#
+        # PROCESS GROUND TRUTH #
         true_xy = y_true[..., :2]
         true_wh = y_true[..., 2:4]
         true_logits = y_true[..., 5:]
@@ -105,7 +105,7 @@ def get_function(anchors):
 
         # loss scaling factors #
         object_coord_scale = 5
-        object_conf_scale = 1
+        object_conf_scale = 2
         noobject_conf_scale = 1
         object_class_scale = 1
 
