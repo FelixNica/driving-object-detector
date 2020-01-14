@@ -20,7 +20,7 @@ class LocalBatcher:
     Minimum performance gain using SSD but limited by storage capacity.
 
     Restarts bach generation at end of data.
-    Can restart bach generation after a set number of batches with "restart_after" parameter
+    Can restart bach generation after a set number of batches with "restart_after" parameter.
     """
 
     def __init__(self, data_path, batch_size, restart_after=None):
@@ -43,9 +43,7 @@ class LocalBatcher:
         self.batch_buffer = None
         self.safe_flag = True
         self.batch_buffer = self.get_batch()
-        """
-        Batch is stored in buffer until GPU is ready to load.
-        """
+        # Batch is stored in buffer until GPU is ready to load.
 
     def item_generator(self):
 
@@ -95,7 +93,7 @@ class LocalBatcher:
 
     def get_batch(self):
         """
-        Launches a parallel bach compute thread to load new data after the current buffer is handed to the GPU
+        Launches a parallel bach compute thread to load new data after the current buffer is handed to the GPU.
         :return: current batch to be handed to GPU
         """
         wait_start = time.time()
