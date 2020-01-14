@@ -5,6 +5,7 @@ import os
 import cv2 as cv
 
 
+# annotate image with predictions
 def annotate(image, predictions, class_names):
     image = image.copy()
     for (left, top, right, bottom, label) in predictions:
@@ -18,13 +19,14 @@ def annotate(image, predictions, class_names):
     return image
 
 
+# annotate batch and save samples
 def sample_batch(image_batch, predictions_batch, class_names, name):
     for i in range(len(image_batch)):
         annotated_image = annotate(image_batch[i], predictions_batch[i], class_names)
         cv.imwrite(name+'_'+str(i)+'.jpg', annotated_image)
-        #print('Saved:'+name+'_'+str(i)+'.jpg')
 
 
+# plot graph from metrics file
 def plot(input_file, output_path):
     plt.yscale("log")
     plt_table = []
@@ -50,4 +52,5 @@ def plot(input_file, output_path):
         os.remove(output_path + '.png')
     plt.savefig(output_path, dpi=1000)
     plt.close()
+
 
