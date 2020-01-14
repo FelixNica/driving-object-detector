@@ -58,17 +58,20 @@ def start_session(experiment_path,
                   test_only=False):
 
     """
-    Training & Testing / Testing only session
+    Training & Testing / Testing only session.
     :param experiment_path: path of experiment folder
     :param detector: detector object
-    :param data_flow_train: training data flow
-    :param data_flow_test: testing data flow
-    :param epochs: Number of epochs to train/test
+    :param data_flow_train: training data flow (batcher)
+    :param data_flow_test: testing data flow (batcher)
+    :param epochs: number of epochs to train/test
     :param lr_scheduler: function, dynamic learning rate hyper-parameter
-    :param test_only: If true session will just test the model without optimising
+    :param test_only: bool, if true session will just test the model without optimising
     """
 
     config = init_experiment(experiment_path)
+
+    # metrics init
+    metrics_buffer = []
     metrics_keys = ['train_loss', 'val_loss']
 
     if os.path.isfile(experiment_path + '/metrics_full.csv') is False:
@@ -79,49 +82,55 @@ def start_session(experiment_path,
         with open(experiment_path + '/metrics_avg.csv', 'a', newline='') as f:
             csv.writer(f).writerow(metrics_keys)
 
-    metrics_buffer = []
     session_start_time = time.time()
-
     train_loss = 0
     val_loss = 0
 
+    # train-test loop
     for epoch in range(config['total_epochs'], config['total_epochs']+epochs):
 
         if test_only is False:
+            # train batch
             imgs, preds = data_flow_train.get_batch()
-            x_train, y_train = processing.process_training_batch((imgs, preds),
-                                                                 detector.anchors,
-                                                                 detector.output_shape)
+            x_train, y_train = processing.process_training_batch((imgs, preds), detector.anchors, detector.output_shape)
 
+            # optimiser learning-rate update
             if lr_scheduler is not None:
                 lr = lr_scheduler(epoch)
                 K.set_value(detector.model.optimizer.lr, lr)
 
+            # gradient pass
             train_loss = detector.model.train_on_batch(x_train, y_train)
 
+            # training sample
             if epoch % config['save_sample_every'] is 0:
                 z_train = detector.model.predict(x_train, batch_size=x_train.shape[0])
-                z_train = processing.process_output_batch(z_train, detector.anchors,
-                                                          confidence_threshold=0.05, max_suppression=False)
+                z_train = processing.process_output_batch(z_train, detector.anchors, conf_thresh=0.05, max_supp=False)
+
                 spl_name = experiment_path+'/training_samples/train_e-'+str(epoch)
                 utils.sample_batch(imgs, z_train, detector.classes, spl_name)
 
+            # checkpoint save
             if epoch % config['save_state_every'] is 0 and epoch is not 0:
                 detector.model.save(experiment_path + '/model_states/state_e-'+str(epoch))
 
         if test_only is True or epoch % config['validate_every'] is 0:
+
+            # test batch
             imgs, preds = data_flow_test.get_batch()
-            x_test, y_test = processing.process_training_batch((imgs, preds),
-                                                               detector.anchors,
-                                                               detector.output_shape)
+            x_test, y_test = processing.process_training_batch((imgs, preds), detector.anchors, detector.output_shape)
+
+            # evaluate pass
             val_loss = detector.model.evaluate(x_test, y_test, y_test.shape[0], verbose=0)
 
+            # test sample
             if epoch % config['save_sample_every'] is 0:
                 z_test = detector.model.predict(x_test, batch_size=x_test.shape[0])
                 z_test = processing.process_output_batch(z_test, detector.anchors)
                 spl_name = experiment_path + '/test_samples/test_e-' + str(epoch)
                 utils.sample_batch(imgs, z_test, detector.classes, spl_name)
 
+        # metrics buffer processing
         metrics_list = [train_loss, val_loss]
         metrics_buffer.append(metrics_list)
         if epoch % config['average_every'] is 0:
@@ -144,18 +153,22 @@ def start_session(experiment_path,
 
             metrics_buffer = []
 
+        # plot metrics
         if epoch % config['update_plots_every'] is 0 and epoch is not 0:
             utils.plot(experiment_path + '/metrics_avg.csv', experiment_path + '/plot')
 
+    # final save
     if test_only is False:
         detector.model.save(experiment_path + '/model_states/state_final')
 
+    # config file update
     config['total_epochs'] = config['total_epochs']+epochs
     session_time = time.time() - session_start_time
     config['total_time'] = config['total_time'] + session_time
     with open(experiment_path + '/experiment_configuration.json', 'w') as cfg:
         json.dump(config, cfg)
 
+    # environment info update
     print(80*'_')
     print('session_time:')
     print(' hours:               ' + str(session_time / 3600))
@@ -164,4 +177,5 @@ def start_session(experiment_path,
     print(' hours:               ' + str(config['total_time'] / 3600))
     print(' minutes:             ' + str(config['total_time'] / 60))
     print(80*'=')
+
 
