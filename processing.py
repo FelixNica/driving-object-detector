@@ -4,8 +4,8 @@ import numpy as np
 def process_training_predictions(predictions, anchors, network_output_shape):
     """
     Converts predictions list to predictions vector compatible with the loss function.
-    Predictions vector cells are populated with respect to bounding box location (cell indices) and shape (anchor indices)
-    :param predictions: predictions list, corresponds to one item in batch (from batcher)
+    Vector cells are populated with respect to bounding box location (cell indices) and shape (anchor indices).
+    :param predictions: predictions list, corresponds to one item in batch
     :param anchors: anchor values from detector
     :param network_output_shape: shape of final layer in detector model
     :return: y_true vector to be used in training
@@ -60,10 +60,10 @@ def process_training_batch(batch, anchors, network_output_shape):
     """
     Applies process_training_predictions on all items in batch.
     Converts all images in batch from int to 0-1 float values.
-    :param batch: batch to be processed (from batcher)
+    :param batch: batch to be processed
     :param anchors: anchor values from detector
     :param network_output_shape: shape of final layer in detector model
-    :return: batch of (image, predictions) as array for training
+    :return: batch of (image, y_true) as array for training
     """
 
     images, predictions = batch
@@ -74,15 +74,15 @@ def process_training_batch(batch, anchors, network_output_shape):
     return images, np.asarray(predictions_batch)
 
 
-def process_output(output, anchors, confidence_threshold=0.5, max_suppression_thresh=0.5, max_suppression=True, cell_size=32):
+def process_output(output, anchors, conf_thresh=0.5, max_supp_thresh=0.5, max_supp=True, cell_size=32):
 
     """
     Converts detector model output to a list of predictions.
-    :param output: detector moedel output for one item in batch
+    :param output: detector model output for one item in batch
     :param anchors: anchor values from detector
-    :param confidence_threshold: minimum confidence value for detection
-    :param max_suppression_thresh: non max suppression threshold
-    :param max_suppression: bool, use non max suppression
+    :param conf_thresh: minimum confidence value for detection
+    :param max_supp_thresh: non max suppression threshold
+    :param max_supp: bool, use non max suppression
     :param cell_size: detection cell size
     :return: predictions list
     """
@@ -126,31 +126,31 @@ def process_output(output, anchors, confidence_threshold=0.5, max_suppression_th
     boxes = np.stack((left, top, right, bottom), axis=-1) * cell_size
     final_confidence = class_confidences * object_confidences
 
-    boxes = boxes[final_confidence > confidence_threshold].reshape(-1, 4).astype(np.int32)
-    labels = predicted_labels[final_confidence > confidence_threshold].reshape(-1, 1).astype(np.int32)
+    boxes = boxes[final_confidence > conf_thresh].reshape(-1, 4).astype(np.int32)
+    labels = predicted_labels[final_confidence > conf_thresh].reshape(-1, 1).astype(np.int32)
 
-    if max_suppression and len(boxes) > 0:
-        boxes, labels = non_max_suppression(boxes, labels, max_suppression_thresh)
+    if max_supp and len(boxes) > 0:
+        boxes, labels = non_max_suppression(boxes, labels, max_supp_thresh)
 
     return np.concatenate((boxes, labels), axis=-1)
 
 
-def process_output_batch(output_batch, anchors, confidence_threshold=0.5, max_suppression_thresh=0.5, max_suppression=True, cell_size=32):
+def process_output_batch(output_batch, anchors, conf_thresh=0.5, max_supp_thresh=0.5, max_supp=True, cell_size=32):
 
     """
     Applies process_output on all items in batch.
     :param output_batch: detector network output
     :param anchors: anchor values from detector
-    :param confidence_threshold: minimum confidence value for detection
-    :param max_suppression_thresh: non max suppression threshold
-    :param max_suppression: bool, use non max suppression
+    :param conf_thresh: minimum confidence value for detection
+    :param max_supp_thresh: non max suppression threshold
+    :param max_supp: bool, use non max suppression
     :param cell_size: detection cell size
     :return:batch of predictions lists
     """
 
     predictions_batch = []
     for output in output_batch:
-        predictions = process_output(output, anchors, confidence_threshold, max_suppression_thresh, max_suppression, cell_size)
+        predictions = process_output(output, anchors, conf_thresh, max_supp_thresh, max_supp, cell_size)
         predictions_batch.append(predictions)
 
     return predictions_batch
