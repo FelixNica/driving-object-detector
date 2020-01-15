@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 
-def deploy(detector, input_path, output_path, batch_size, conf_thresh=0.5, max_supp_thresh=0.5):
+def on_image_folder(detector, input_path, output_path, batch_size, conf_thresh=0.5, max_supp_thresh=0.5):
     image_list = glob.glob(input_path + '/*.jpg')
 
     if os.path.exists(output_path) is False:
