@@ -49,8 +49,8 @@ pred_lists = processing.process_output_batch(pred_vectors, detector.anchors, con
 ```
 image_batch shape is (number_of_images, image_width, image_height, number_of_channels)<br />
 pred_vector has the shape of the last layer in the Keras model, ex: (?, 19, 19, 5, 20)<br />
-pred_lists contains a batch of lists with predicted bounding boxes and respective classes<br />
-one prediction is formated as [box_x, box_y, box_width, box_height, object_class], example:
+pred_lists contains a batch of lists with predicted bounding boxes and respective classes with
+one prediction formated as [box_x, box_y, box_width, box_height, object_class], example:
 ```py
 print(pred_lists[0])
 
