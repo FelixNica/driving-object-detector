@@ -100,8 +100,8 @@ class LocalBatcher:
         while self.safe_flag is False:
             time.sleep(0.1)
         wait_end = time.time() - wait_start
-        if wait_end > 0.2:
-            print(self.name, "Waited for bach compute {} seconds".format(self.data_path, wait_end))
+        if wait_end > 0.1:
+            print(self.name, "Waited for bach compute {} seconds".format(wait_end))
         threading.Thread(target=self._compute_batch).start()
         return self.batch_buffer
 
