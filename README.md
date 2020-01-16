@@ -18,8 +18,11 @@ How list predictions are converted to y_train vectors for training is largely a 
 
 ## Usage
 
-#### Loading the model:
+#### Create Detector and load model:
 ```py
+from detectors import dod_beta_6 as arch
+
+detector = arch.DrivingObjectDetector()
 
 ```
 #### Basic Deployment:
@@ -63,3 +66,6 @@ print(pred_lists[0])
 ## Training
 
 #### Data format and pre-processing
+
+#### Optimising the detector model
+
