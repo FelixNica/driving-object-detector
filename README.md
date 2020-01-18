@@ -10,7 +10,7 @@ Darknet-"You only look once V2" and optimized to perform detections specific to 
 The images above are taken randomly from the Google search results for "car on road" and "pedestrians" and are not found
 in training or validation data sets.
 
-####Current object classes that can be detected:<br />
+#### Current object classes that can be detected:<br />
 'person',<br />
  'bicycle', 'skateboard',<br />
  'car', 'truck', 'motorcycle', 'bus', 'train',<br />
