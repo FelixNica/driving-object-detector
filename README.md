@@ -10,7 +10,16 @@ Darknet-"You only look once V2" and optimized to perform detections specific to 
 The images above are taken randomly from the Google search results for "car on road" and "pedestrians" and are not found
 in training or validation data sets.
 
-#### Credit where due:
+####Current object classes that can be detected:<br />
+'person',<br />
+ 'bicycle', 'skateboard',<br />
+ 'car', 'truck', 'motorcycle', 'bus', 'train',<br />
+ 'traffic light', 'stop sign', 'parking meter',<br />
+ 'sports ball',<br />
+ 'animal'<br />
+
+
+#### Credit where credit is due:
 
 [Joseph Redmon](https://pjreddie.com/): approach to training a neural network for object detection and publishing the 
 weights files - this project uses the feature extraction section of his model converted to Keras.
