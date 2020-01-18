@@ -70,13 +70,13 @@ batch_size - maximum batch size loaded (number of images does not need to be mul
 
 #### Advanced Deployment
 The model takes an image batch and outputs a vector sparsely populated by detections that exceed the
-confidence threshold and pass non-max suppression filtering. This vector can be processed into a detections list
+confidence threshold. This vector can be processed into a detections list
 that is human readable and CPU processing friendly.
 ```py
 import numpy as np
 import processing
 
-image_batch = -get images in a batch, can be from folder or frames from video etc-
+image_batch = #get images in a batch, can be from folder or frames from video etc...
 image_batch = np.asarray(image_batch) / 255. # color values between 0-1
 
 pred_vectors = detector.model.predict(image_batch, batch_size=image_batch.shape[0])
