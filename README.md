@@ -21,8 +21,8 @@ in training or validation data sets.
 
 #### Credit where credit is due:
 
-[Joseph Redmon](https://pjreddie.com/): approach to training a neural network for object detection and publishing the 
-weights files - this project uses the feature extraction section of his model converted to Keras.
+[Joseph Redmon](https://pjreddie.com/): approach to training a neural network for object detection - this project uses 
+the feature extraction section of his model converted to Keras.
 - [Original YOLO publication](https://arxiv.org/pdf/1506.02640.pdf) - main inspiration for this project
 - [YOLO V3 - Latest publication in object detection](https://pjreddie.com/media/files/papers/YOLOv3.pdf) - not used here
 but very cool
@@ -34,6 +34,12 @@ How list predictions are converted to y_train vectors for training is largely a 
 
 
 ## Usage
+
+#### Stack Versions:
+
+tensorflow 1.13.1 <br />
+keras 2.2.4 <br />
+(Working on upgrading to tensorflow 2.0)
 
 #### Create Detector and load model:
 ```py
