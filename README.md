@@ -28,7 +28,7 @@ the feature extraction section of his model converted to Keras.
 but very cool
 
 [Guillaume Ramé](https://github.com/guigzzz): developing the loss calculation approach compatible with Keras models. 
-How list predictions are converted to y_train vectors for training is largely a product of his work.
+The conversion process from list predictions to y_train vectors for training is largely a product of his work.
 - [Professional profile](https://uk.linkedin.com/in/guillaume-rame)
 - [Keras-Yolo-v2 work](https://github.com/guigzzz/Keras-Yolo-v2)
 
