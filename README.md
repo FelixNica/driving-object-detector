@@ -2,6 +2,8 @@
 DOD is a deep object detection algorithm implemented using Keras/Tensorflow, developed based on Joseph Redmon's 
 Darknet-"You only look once V2" and optimized to perform detections specific to vehicle self driving applications.
 
+![](img/sample_batch-0_0.jpg)
+
 #### Credit where due:
 
 [Joseph Redmon](https://pjreddie.com/): approach to training a neural network for object detection and publishing the 
