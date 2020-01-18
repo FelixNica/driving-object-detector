@@ -45,8 +45,17 @@ keras 2.2.4 <br />
 ```py
 from detectors import dod_beta_6 as arch
 
-extra
+detector = arch.DrivingObjectDetector()
 
+detector.model = load_model('keras model location')
+```
+Creating the detector also builds the default untrained model. You can load in a trained model using 'load_model' from 
+Keras.models or import specific sections of models using 'import_weights':
+
+```py
+detector = arch.DrivingObjectDetector()
+
+detector.import_weights('model location', first_layer, last_layer)
 ```
 #### Basic Deployment:
 You can quickly test how the loaded model deploys using the on_image_folder function.
