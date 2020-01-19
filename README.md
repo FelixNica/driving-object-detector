@@ -168,18 +168,18 @@ See the 'Example_Notebook' file for a detailed view into how the training enviro
 Sampling during training allows us to view how the detection performance increases with 
 the number of training epochs.<br/>
 The following samples were taken with a confidence threshold of 0.05 and with non max suppression disabled. <br/>
-
-![](img/train_sample_e-0.jpg)<br/>
+<br/>
 The first epoch prediction amounts to noise with a high number of erroneous detections.<br/>
-
-![](img/train_sample_e-600.jpg)<br/>
+![](img/train_sample_e-0.jpg)<br/>
+<br/>
 At epoch 600 we see the number of false detections went down due to the 'no_obj_loss' term of the loss function.
 If we set the 'noobject_conf_scale' factor to 0 this does not happen. <br/>
-
-![](img/train_sample_e-2200.jpg)<br/>
+![](img/train_sample_e-600.jpg)<br/>
+<br/>
 At epoch 2200 we see a small number of partially correct detections. Note that some objects were not detected
 and the majority of bounding boxes and some classes are incorrect.<br/>
-
-![](img/train_sample_e-46000.jpg)<br/>
+![](img/train_sample_e-2200.jpg)<br/>
+<br/>
 At epoch 46000 we see multiple detections per object (multiple cells have high confidence). This prediction can be 
-processed with confidence thresholding and non max suppression to get a quality result. 
+processed with confidence thresholding and non max suppression to get a quality result. <br/>
+![](img/train_sample_e-46000.jpg)<br/>
