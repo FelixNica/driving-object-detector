@@ -31,8 +31,8 @@ Classes currently trained:<br/>
 Model architecture diagram:
 ![](img/architecture_diagram.jpg)<br />
 ① - model input - (608, 608, 3)<br />
-➁ - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
-➂ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
+② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
+③ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
 
 #### Credit where credit is due:
 
