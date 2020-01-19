@@ -7,8 +7,9 @@ Darknet-"You only look once V2" and optimized to perform detections specific to 
 ![](img/sample_batch-0_2.jpg)
 ![](img/sample_batch-0_3.jpg)
 
-The images above are taken randomly from the Google search results for "car on road" and "pedestrians" and are not found
-in training or validation data sets.
+The images above are taken randomly from the Google image search results for "car on road" and "pedestrians" and were 
+annotated with the dod_beta_6 version of the detector. These images are not part of the training or validation sets and 
+ offer an overview of detection performance on real world data.
 
 #### Detector specifications:<br />
 
@@ -31,7 +32,7 @@ Classes currently trained:<br/>
 Model architecture diagram:
 ![](img/architecture_diagram.jpg)<br />
 ① - model input - (608, 608, 3)<br />
-➁ - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
+➁ - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bounding box, 1 confidence, 13 classes<br/>
 ➂ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
 
 #### Credit where credit is due:
