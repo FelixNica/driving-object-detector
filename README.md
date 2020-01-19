@@ -190,8 +190,12 @@ processed with confidence thresholding and non max suppression to get a quality 
 
 ![](img/train_sample_e-46000.jpg)<br/>
 <br/>
-With a higher confidence threshold and non max suppression applied predictions on validation data look like this, 
+With a higher confidence threshold and non max suppression applied, predictions on validation data look like this, 
 note that more optimisation is necessary for objects that have small 
 bounding boxes (are far away in the image): <br/>
 
 ![](img/test_sample_e-49000.jpg)<br/>
+
+## Looking towards the future:
+
+![](img/3d_concept.jpg)
