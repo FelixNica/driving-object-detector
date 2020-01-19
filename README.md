@@ -27,7 +27,9 @@ Classes currently trained:<br/>
  'traffic light', 'stop sign', 'parking meter',<br />
  'sports ball',<br />
  'animal'<br />
-
+ 
+Model architecture diagram:
+![](img/architecture_diagram.jpg)
 
 #### Credit where credit is due:
 
