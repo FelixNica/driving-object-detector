@@ -32,7 +32,7 @@ Classes currently trained:<br/>
 Model architecture diagram:
 ![](img/architecture_diagram.jpg)<br />
 ① - model input - (608, 608, 3)<br />
-② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bounding box, 1 confidence, 13 classes  <br/>
+② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 box coordinates, 1 confidence, 13 classes  <br/>
 ③ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
 
 #### Credit where credit is due:
@@ -51,13 +51,14 @@ The conversion process from list predictions to y_train vectors for training is 
 
 ## Usage
 
-#### Stack Versions:
+#### Stack versions:
 
-tensorflow 1.13.1 <br />
-keras 2.2.4 <br />
+Cuda CuDNN v10.0
+Tensorflow 1.13.1 <br />
+Keras 2.2.4 <br />
 (Working on upgrading to tensorflow 2.0)
 
-#### Create Detector and load model:
+#### Create detector and load model:
 ```py
 from detectors import dod_beta_6 as arch
 
@@ -73,7 +74,7 @@ detector = arch.DrivingObjectDetector()
 
 detector.import_weights('model location', first_layer, last_layer)
 ```
-#### Basic Deployment:
+#### Basic deployment:
 You can quickly test how the loaded model deploys using the on_image_folder function:
 ```py
 import deploy
@@ -84,9 +85,9 @@ input_path - location of folder containing .jpg images <br />
 output_path - where the annotated images get saved <br />
 batch_size - maximum batch size loaded (number of images does not need to be multiple)<br />
 
-#### Advanced Deployment
+#### Advanced deployment
 The model takes an image batch and outputs a vector sparsely populated by detections that exceed the
-confidence threshold. This vector can be processed into a detections list
+confidence threshold. This vector can be processed into a 'detections list'
 that is human readable and CPU processing friendly.
 ```py
 import numpy as np
@@ -99,9 +100,9 @@ pred_vectors = detector.model.predict(image_batch, batch_size=image_batch.shape[
 pred_lists = processing.process_output_batch(pred_vectors, detector.anchors, conf_thresh, max_supp_thresh)
 ```
 image_batch shape - (number_of_images, image_width, image_height, number_of_channels)<br />
-pred_vector - has the shape of the last layer in the Keras model, ex: (?, 19, 19, 5, 20)<br />
+pred_vector - has the shape of the last layer in the Keras model, ex: (?, 19, 19, 5, 18)<br />
 pred_lists - contains a batch of lists with predicted bounding boxes and respective classes with
-one prediction formatted as [box_x, box_y, box_width, box_height, object_class], example:
+one detection formatted as [box_x, box_y, box_width, box_height, object_class], example:
 ```py
 print(pred_lists[0])
 
@@ -159,7 +160,7 @@ training.start_session(experiment_path='experiment location',
                        epochs = #number of optimisation passes)
 ```
 The script will initialize a local experiment and save the model states, training samples, test samples and metrics.
-If an experiment already exists at the specified location the script will load the experiment configuration and pick up 
+If an experiment already exists at the specified location, the script will load the experiment configuration and pick up 
 where it left off. You can also skip the gradient pass and perform only evaluation using 'test_only = True'<br/>
 
 See the 'Example_Notebook' file for a detailed view into how the training environment works.
