@@ -17,7 +17,7 @@ batches of images with shape (608 pixels, 608 pixels, 3 RGB channels)<br/>
 
 Output:<br/>
 batches of predictions consisting of a bounding box and a class for every relevant object in image<br/>
-hard maximum of predictions per image is 1,805‬ (all processed at once) but in 
+the hard maximum of predictions per image is 1,805‬ (all processed at once) but 
 in practice we see a soft maximum of around 400 to 600 (sufficient for self driving applications)
 
 Classes currently trained:<br/>
@@ -109,5 +109,17 @@ print(pred_lists[0])
 
 #### Data format and pre-processing
 
+The data used in this project comes from the [COCO 2017 dataset](http://cocodataset.org/#home). It has been 
+preprocessed based on relevancy for self driving applications creating super-clases where detailed detection is not 
+of use, example: 'animal' (no use to distinguish zebras from giraffes)<br/>
+The annotations have been formatted for ease of access:
+
+```py
+"000000252219.jpg": [[309, 247, 376, 527, 0, "person"], 
+                    [9, 237, 124, 558, 0, "person"], 
+                    [484, 243, 601, 549, 0, "person"], 
+                    [320, 62, 378, 143, 8, "traffic light"]]
+#see 'data_example' folder
+```
 #### Optimising the detector model
 
