@@ -32,7 +32,7 @@ Classes currently trained:<br/>
 Model architecture diagram:
 ![](img/architecture_diagram.jpg)<br />
 ① - model input - (608, 608, 3)<br />
-② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
+② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bounding box, 1 confidence, 13 classes  <br/>
 ③ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
 
 #### Credit where credit is due:
@@ -189,7 +189,8 @@ processed with confidence thresholding and non max suppression to get a quality 
 
 ![](img/train_sample_e-46000.jpg)<br/>
 <br/>
-After filtering, predictions on validation data look like this, note that more optimisation is necessary for objects that
-have small bounding boxes (are far away in the image): <br/>
+With a higher confidence threshold and non max suppression applied predictions on validation data look like this, 
+note that more optimisation is necessary for objects that have small 
+bounding boxes (are far away in the image): <br/>
 
 ![](img/test_sample_e-49000.jpg)<br/>
