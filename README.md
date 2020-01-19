@@ -68,7 +68,7 @@ detector = arch.DrivingObjectDetector()
 detector.import_weights('model location', first_layer, last_layer)
 ```
 #### Basic Deployment:
-You can quickly test how the loaded model deploys using the on_image_folder function.
+You can quickly test how the loaded model deploys using the on_image_folder function:
 ```py
 import deploy
 
@@ -122,4 +122,37 @@ The annotations have been formatted for ease of access:
 #see 'data_example' folder
 ```
 #### Optimising the detector model
+For optimisation you will need to create the data_flow objects for training and validation:
+```py
+import batchers
 
+data_flow_train = batchers.LocalBatcher(data_path='training data location',
+                                        batch_size,
+                                        restart_after=None)
+
+data_flow_test = batchers.LocalBatcher(data_path='validation data location',
+                                       batch_size,
+                                       restart_after=None)
+```
+The detector model needs to be compiled with the optimiser and the custom loss function:
+```py
+from keras.optimizers import SGD, Adam
+import loss
+
+detector.model.compile(optimizer=SGD(lr, momentum),
+                       loss=loss.get_function(detector.anchors))
+```
+Now you can start the training session using the training script:
+```py
+import training
+
+training.start_session(experiment_path='expetiment location',
+                       detector=detector,
+                       data_flow_train=data_flow_train,
+                       data_flow_test=data_flow_test,
+                       epochs = #number of optimisation passes,
+                       test_only=False)
+```
+The script will initialize a local experiment and save the model states, training samples, test samples and metrics.
+If an experiment already exists at the specified location the script will load the experiment configuration and pick up 
+where it left off.
