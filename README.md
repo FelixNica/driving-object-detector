@@ -146,13 +146,12 @@ Now you can start the training session using the training script:
 ```py
 import training
 
-training.start_session(experiment_path='expetiment location',
+training.start_session(experiment_path='experiment location',
                        detector=detector,
                        data_flow_train=data_flow_train,
                        data_flow_test=data_flow_test,
-                       epochs = #number of optimisation passes,
-                       test_only=False)
+                       epochs = #number of optimisation passes)
 ```
 The script will initialize a local experiment and save the model states, training samples, test samples and metrics.
 If an experiment already exists at the specified location the script will load the experiment configuration and pick up 
-where it left off.
+where it left off. You can also skip the gradient pass and perform only evaluation using 'test_only = True'
