@@ -7,7 +7,7 @@ Darknet-"You only look once V2" and optimized to perform detections specific to 
 ![](img/sample_batch-0_2.jpg)
 ![](img/sample_batch-0_3.jpg)
 
-The images above are taken randomly from the Google search results for "car on road" and "pedestrians" and were
+The images above are taken randomly from the Google image search results for "car on road" and "pedestrians" and were
 annotated with the 'dod_beta_6' version of the detector. The images are not found in training or validation data 
 sets and offer an overview of detection performance on real world data.
 
@@ -32,8 +32,8 @@ Classes currently trained:<br/>
 Model architecture diagram:
 ![](img/architecture_diagram.jpg)<br />
 ① - model input - (608, 608, 3)<br />
-➁ - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
-➂ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
+② - model output - (19, 19, 90) reshaped to (19, 19, 5, 4+1+13) - 4 bound box, 1 confidence, 13 classes (one hot)  <br/>
+③ - convolutional skip connection - (38, 38, 64) reshaped to (19, 19, 256)<br />
 
 #### Credit where credit is due:
 
@@ -162,3 +162,11 @@ The script will initialize a local experiment and save the model states, trainin
 If an experiment already exists at the specified location the script will load the experiment configuration and pick up 
 where it left off. You can also skip the gradient pass and perform only evaluation using 'test_only = True'<br/>
 See the 'Example_Notebook' file for a detailed view into how the training environment works.
+
+#### How the model learns:
+
+Sampling during training allows us to view how the detection performance increases with the number of training epochs.
+![](img/train_sample_e-0.jpg)
+![](img/train_sample_e-600.jpg)
+![](img/train_sample_e-2200.jpg)
+![](img/train_sample_e-460000.jpg)
