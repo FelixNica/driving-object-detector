@@ -92,10 +92,10 @@ image_batch = np.asarray(image_batch) / 255. # color values between 0-1
 pred_vectors = detector.model.predict(image_batch, batch_size=image_batch.shape[0])
 pred_lists = processing.process_output_batch(pred_vectors, detector.anchors, conf_thresh, max_supp_thresh)
 ```
-image_batch shape is (number_of_images, image_width, image_height, number_of_channels)<br />
-pred_vector has the shape of the last layer in the Keras model, ex: (?, 19, 19, 5, 20)<br />
-pred_lists contains a batch of lists with predicted bounding boxes and respective classes with
-one prediction formated as [box_x, box_y, box_width, box_height, object_class], example:
+image_batch shape - (number_of_images, image_width, image_height, number_of_channels)<br />
+pred_vector - has the shape of the last layer in the Keras model, ex: (?, 19, 19, 5, 20)<br />
+pred_lists - contains a batch of lists with predicted bounding boxes and respective classes with
+one prediction formatted as [box_x, box_y, box_width, box_height, object_class], example:
 ```py
 print(pred_lists[0])
 
