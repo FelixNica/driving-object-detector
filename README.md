@@ -10,7 +10,17 @@ Darknet-"You only look once V2" and optimized to perform detections specific to 
 The images above are taken randomly from the Google search results for "car on road" and "pedestrians" and are not found
 in training or validation data sets.
 
-#### Current object classes that can be detected:<br />
+#### Detector specifications:<br />
+
+Input:<br/>
+batches of images with shape (608 pixels, 608 pixels, 3 RGB channels)<br/>
+
+Output:<br/>
+batches of predictions consisting of a bounding box and a class for every relevant object in image<br/>
+hard maximum of predictions per image is 1,805‬ (all processed at once) but in 
+in practice we see a soft maximum of around 400 to 600 (sufficient for self driving applications)
+
+Classes currently trained:<br/>
 'person',<br />
  'bicycle', 'skateboard',<br />
  'car', 'truck', 'motorcycle', 'bus', 'train',<br />
