@@ -134,7 +134,7 @@ data_flow_test = batchers.LocalBatcher(data_path='validation data location',
                                        batch_size,
                                        restart_after=None)
 ```
-The detector model needs to be compiled with the optimiser and the custom loss function:
+The detector model needs to be compiled with the optimizer and the custom loss function:
 ```py
 from keras.optimizers import SGD, Adam
 import loss
@@ -154,4 +154,5 @@ training.start_session(experiment_path='experiment location',
 ```
 The script will initialize a local experiment and save the model states, training samples, test samples and metrics.
 If an experiment already exists at the specified location the script will load the experiment configuration and pick up 
-where it left off. You can also skip the gradient pass and perform only evaluation using 'test_only = True'
+where it left off. You can also skip the gradient pass and perform only evaluation using 'test_only = True'<br/>
+See the 'Example_Notebook' file for a detailed view into how the training environment works.
