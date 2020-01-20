@@ -214,4 +214,4 @@ data could be the best research avenue.<br />
 Below you will find a rendering I made illustrating the 3D detection concept, with the self driving vehicle in blue, 
 bounding boxes in green, highest confidence cell in red and suppressed cells in yellow:<br /> 
 
-![](img/3d_concept.jpg)
+![](img/3d_detections_concept.jpg)
