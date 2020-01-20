@@ -1,6 +1,7 @@
 # driving-object-detector
 DOD is a deep object detection algorithm implemented using Keras/Tensorflow, developed based on Joseph Redmon's 
-Darknet-"You only look once V2" and optimized to perform detections specific to vehicle self driving applications.
+Darknet-"You only look once V2" and optimized to perform real time detections specific to vehicle self 
+driving applications.
 
 ![](img/sample_batch-0_0.jpg)
 ![](img/sample_batch-0_1.jpg)
@@ -53,7 +54,7 @@ The conversion process from list predictions to y_train vectors for training is 
 
 #### Stack versions:
 
-Cuda CuDNN v10.0
+Cuda CuDNN v10.0 <br />
 Tensorflow 1.13.1 <br />
 Keras 2.2.4 <br />
 (Working on upgrading to tensorflow 2.0)
