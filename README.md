@@ -206,5 +206,11 @@ The model output will need to have one extra dimension:<br />
 The input to the model will most likely need to contain more spatial information. Research towards this should start 
 with testing Recurrent Video Processing, Stereoscopic Cameras and LiDAR strategies.
 <br />
+Data acquisition for this approach might turn out to be expensive but the gains in the overall self driving performance 
+might outweigh the costs. Data generation using game engines before LiDAR distance mapping or annotating real world 
+data could be the best research avenue.
+<br />
+Rendering of the 3D detection concept, with the self driving vehicle in blue, bounding boxes represented in green, 
+highest confidence cell in red and suppressed cells in yellow. 
 
 ![](img/3d_concept.jpg)
