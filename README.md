@@ -18,7 +18,7 @@ batches of images with shape (608 pixels, 608 pixels, 3 RGB channels)<br/>
 
 Output:<br/>
 batches of predictions consisting of a bounding box and a class for every relevant object in image<br/>
-the hard maximum of predictions per image is 1,805‬ (all processed at once) but 
+the hard maximum of detections per image is 1,805‬ (all processed at once) but 
 in practice we see a soft maximum of around 400 to 600 (sufficient for self driving applications)
 
 Classes currently trained:<br/>
@@ -86,7 +86,7 @@ output_path - where the annotated images get saved <br />
 batch_size - maximum batch size loaded (number of images does not need to be multiple)<br />
 
 #### Advanced deployment
-The model takes an image batch and outputs a vector sparsely populated by detections that exceed the
+The model takes an image batch and outputs a vector with 19x19x5 cells sparsely populated by detections that exceed the
 confidence threshold. This vector can be processed into a 'detections list'
 that is human readable and CPU processing friendly.
 ```py
@@ -195,7 +195,16 @@ note that more optimisation is necessary for objects that have small
 bounding boxes (are far away in the image): <br/>
 
 ![](img/test_sample_e-49000.jpg)<br/>
+<br/>
 
 ## Looking towards the future:
+
+The approach to training object detectors presented here can be expanded to make 3D bounding box detections possible.
+The model output will need to have one extra dimension:<br />
+(x_cells, y_cells, z_cells, anchor slots, 6 box coordinates + 1 confidence + nr of classes) <br />
+<br />
+The input to the model will most likely need to contain more spatial information. Research towards this should start 
+with testing Recurrent Video Processing, Stereoscopic Cameras and LiDAR strategies.
+<br />
 
 ![](img/3d_concept.jpg)
