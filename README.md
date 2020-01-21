@@ -129,8 +129,8 @@ The annotations have been formatted for ease of access:
                     [320, 62, 378, 143, 8, "traffic light"]]
 #see 'data_example' folder
 ```
-#### Optimising the detector model
-For optimisation you will need to create the data_flow objects for training and validation:
+#### Optimizing the detector model
+For optimization you will need to create the data_flow objects for training and validation:
 ```py
 import batchers
 
@@ -158,7 +158,7 @@ training.start_session(experiment_path='experiment location',
                        detector=detector,
                        data_flow_train=data_flow_train,
                        data_flow_test=data_flow_test,
-                       epochs = #number of optimisation passes)
+                       epochs = #number of optimization passes)
 ```
 The script will initialize a local experiment and save the model states, training samples, test samples and metrics.
 If an experiment already exists at the specified location, the script will load the experiment configuration and pick up 
@@ -192,7 +192,7 @@ processed with confidence thresholding and non max suppression to get a quality 
 ![](img/train_sample_e-46000.jpg)<br/>
 <br/>
 With a higher confidence threshold and non max suppression applied, predictions on validation data look like this, 
-note that more optimisation is necessary for objects that have small 
+note that more optimization is necessary for objects that have small 
 bounding boxes (are far away in the image): <br/>
 
 ![](img/test_sample_e-49000.jpg)<br/>
