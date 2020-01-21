@@ -20,7 +20,6 @@ class DrivingObjectDetector:
         self.image_size = 608
         self.cell_number = 19
         self.cell_size = 32
-        self.retrain_from = 77
         self.output_shape = (self.cell_number, self.cell_number, len(self.anchors), 4 + 1 + len(self.classes))
 
         self.model = self.build_model()
@@ -62,10 +61,10 @@ class DrivingObjectDetector:
 
         model = network_block(model, [(1024, 3), (512, 1), (1024, 3), (512, 1), (1024, 3)], train=False)
 
-        model = conv_composite(model, 1024, 3, train=False)
-        model = conv_composite(model, 1024, 3, train=False)
+        model = conv_composite(model, 1024, 3)
+        model = conv_composite(model, 1024, 3)
 
-        skip = conv_composite(skip, 64, 1, train=False)
+        skip = conv_composite(skip, 64, 1)
         model = Concatenate()([reorganize(skip, 2), model])
 
         model = conv_composite(model, 1024, 3)
@@ -91,7 +90,7 @@ def network_block(tensor, dims, train=True):
     return tensor
 
 
-# TODO: Retrain a large section of the model to support residual layer connectivity and remove reorganise composite
+# TODO: Retrain the detection section of the model to support residual layer connectivity and remove the reorganise function
 def reorganize(input_tensor, stride):
     _, h, w, c = input_tensor.get_shape().as_list()
 
