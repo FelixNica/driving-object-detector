@@ -54,7 +54,8 @@ The conversion process from list predictions to y_train vectors for training is 
 
 #### Stack versions:
 
-Cuda CuDNN v10.0 <br />
+Cuda v10.0 <br />
+CuDNN v7.4 <br />
 Tensorflow 1.13.1 <br />
 Keras 2.2.4 <br />
 (Working on upgrading to tensorflow 2.0)
