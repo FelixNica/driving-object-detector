@@ -2,11 +2,6 @@
 CREDIT: Guillaume Ramé - London, UK
 https://github.com/guigzzz
 
-After spending two months developing my own loss function I was not
-satisfied with the approach so I adapted Guillaume Ramé's excellent
-version to my project. No license was attached to his code but please
-reach out to him if you intend to distribute this.
-
 Original paper by Joseph Redmon:
 https://arxiv.org/pdf/1506.02640.pdf
 
